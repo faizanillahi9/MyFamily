@@ -12,127 +12,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_16"
-        android:text="Home Fragment"
+        android:text="@string/home_fragment"
         android:textColor="@color/black"
-        android:textSize="@dimen/dimen_16"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_one"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_member"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_marginBottom="@dimen/dimen_8"
+        app:layout_constraintBottom_toTopOf="@id/invite_card"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_member" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/invite_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_16"
         app:cardCornerRadius="@dimen/dimen_16"
-        app:cardElevation="@dimen/dimen_16"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:cardElevation="@dimen/dimen_8"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <ImageView
-        android:id="@+id/img_user"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="@dimen/dimen_16"
-        android:elevation="@dimen/dimen_16"
-        android:src="@drawable/ic_profile"
-        app:layout_constraintBottom_toBottomOf="@+id/card_one"
-        app:layout_constraintStart_toStartOf="@+id/card_one"
-        app:layout_constraintTop_toTopOf="@+id/card_one" />
-
-    <TextView
-
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_16"
-        android:elevation="@dimen/dimen_16"
-        android:text="@string/faizan_ullah"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/img_user"
-        app:layout_constraintTop_toTopOf="@id/card_one"
-
-        />
-
-    <TextView
-        android:id="@+id/user_adress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_location"
-        android:text="@string/user_adress"
-        android:elevation="@dimen/dimen_16"
-        android:drawablePadding="6dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="@dimen/dimen_16"
-        android:textSize="@dimen/dimen_16"
-        android:textColor="@color/darker_gray"
-        app:layout_constraintStart_toStartOf="@+id/userName"
-        app:layout_constraintTop_toBottomOf="@+id/userName"
-        app:layout_constraintEnd_toEndOf="@id/card_one"
-        />
-
-    <TextView
-        android:id="@+id/battery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_battery"
-        android:text="90%"
-        android:textColor="@color/green"
-        android:layout_marginTop="8dp"
-        android:elevation="@dimen/dimen_16"
-        app:layout_constraintTop_toBottomOf="@+id/img_user"
-        app:layout_constraintStart_toStartOf="@id/img_user"
-        />
-
-    <TextView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_navigation"
-        android:text="223M"
-        android:textColor="@color/darker_gray"
-        android:elevation="@dimen/dimen_16"
-        app:layout_constraintStart_toEndOf="@id/battery"
-        app:layout_constraintBottom_toBottomOf="@id/battery"
-        android:layout_marginHorizontal="32dp"
-        />
-
-    <TextView
-        android:id="@+id/wifi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_wifi"
-        android:text="WiFi"
-        android:textColor="@color/darker_gray"
-        android:elevation="@dimen/dimen_16"
-        android:paddingLeft="4dp"
-        app:layout_constraintStart_toEndOf="@id/navigation"
-        app:layout_constraintBottom_toBottomOf="@id/navigation"
-        android:layout_marginHorizontal="32dp"
-        />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:backgroundTint="@color/blue"
-        android:elevation="@dimen/dimen_16"
-        android:src="@drawable/ic_call"
-        app:layout_constraintBottom_toBottomOf="@id/wifi"
-        app:layout_constraintEnd_toEndOf="@id/card_one"
-
-        app:layout_constraintStart_toEndOf="@id/wifi"
-        app:layout_constraintTop_toTopOf="@+id/wifi" />
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomBar"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_invite"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemIconTint="@drawable/nav_item_color"
-        app:itemTextColor="@color/green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_bar_items" />
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/dimen_8"
+        tools:listitem="@layout/item_invite" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
