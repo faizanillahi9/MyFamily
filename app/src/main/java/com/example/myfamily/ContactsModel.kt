@@ -2,5 +2,5 @@ package com.example.myfamily
 
 data class ContactsModel(
     val name: String,
-    val number : Long
+    val number : String
 )
