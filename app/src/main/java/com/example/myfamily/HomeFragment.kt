@@ -2,14 +2,23 @@ package com.example.myfamily
 
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
+    lateinit var inviteAdapter: InviteAdapter
+
+    // ARRAY LIST FOR STORING CONTACTS WHEN RETURNS FROM COROUNTINES/ IO THREAD
+    private val listContacts: ArrayList<ContactsModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,15 +49,66 @@ class HomeFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter
 
+        // invite adapter or contacts recyclerview adapter
+        Log.d("fetchcontacts53", "fetchcontacts: start ${listContacts.size} ")
+        inviteAdapter =
+            InviteAdapter(listContacts) // initializing invite adapter && adding listContacts to invite adapter
+        fetchDatabaseContacts() // fetching contacts from database or ye function ek live observer he
+        // ye ek observer call he jo UI ke baad load hota he
+
+        Log.d("fetchcontacts53", "fetchcontacts: end  ")
+
+
+        Log.d("fetchcontacts53", "fetchcontacts: start ")
+        // threads -> Coroutines in Kotlin or Android
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d("fetchcontacts53", "fetchcontacts: start corountine")
+            // ye scope background/IO thread per chale ga
+
+//            listContacts.clear() // clearing the list contacts
+//            listContacts.addAll(fetchDatabaseContacts()) // fetching contacts from database
+
+            // insert contacts to database
+            insertDatabaseContacts(fetchContacts())
+
+            // notifyDataSetChanged() -> notify k  list or recyclerview me  changes hui he usko update ker lo
+            // it is connected to recyclerview which is in "UI(main) thread"
+            // so we have to switch from this "IO(background) thread" to "UI(main) thread"
+//            withContext(Dispatchers.Main) {
+//                inviteAdapter.notifyDataSetChanged()
+//            } ab UI ko update nhi ker rhe is liye is ki zroorat nhi he ab
+
+
+            Log.d("fetchcontacts53", "fetchcontacts: end corountine ${listContacts.size}")
+
+        }
+
 
         // invite adapter or contacts recyclerview adapter
-        val inviteAdapter = InviteAdapter(fetchContacts()) // fetching contacts
-
         val inviteRecycler = requireView().findViewById<RecyclerView>(R.id.recycler_invite)
         inviteRecycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         inviteRecycler.adapter = inviteAdapter
 
+    }
+
+    // fetching contacts from database or ye fun ek live observer he
+    private fun fetchDatabaseContacts() {
+        val database = MyFamilyDatabase.getDatabase(requireContext())
+        // livedata ko use kerne ke liye hume us function ko observe kerna perta he
+        database.contactDao().getAllContacts().observe(viewLifecycleOwner) {
+            Log.d("fetchcontacts53", "fetchDatabaseContacts: ")
+            listContacts.clear()
+            listContacts.addAll(it)
+            inviteAdapter.notifyDataSetChanged()
+
+        }
+    }
+
+    // insert contacts to database
+    private suspend fun insertDatabaseContacts(listContacts: ArrayList<ContactsModel>) {
+        val database = MyFamilyDatabase.getDatabase(requireContext())
+        database.contactDao().insertAll(listContacts)
     }
 
     // fetching contacts

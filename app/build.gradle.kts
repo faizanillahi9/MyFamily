@@ -1,12 +1,17 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("kotlin-kapt")
+
 }
 
 android {
     namespace = "com.example.myfamily"
     compileSdk = 33
+
 
     defaultConfig {
         applicationId = "com.example.myfamily"
@@ -28,12 +33,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "18"
     }
+    buildToolsVersion = "33.0.1"
 }
 
 dependencies {
@@ -46,4 +52,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
+    // Room components
+    implementation("androidx.room:room-ktx:2.3.0")
+    kapt("androidx.room:room-compiler:2.3.0")
+    androidTestImplementation ("androidx.room:room-testing:2.3.0")
 }
