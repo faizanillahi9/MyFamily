@@ -1,5 +1,6 @@
 package com.example.myfamily
 
+import android.content.Context
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -9,26 +10,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfamily.databinding.FragmentHomeBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
+    lateinit var binding: FragmentHomeBinding
     lateinit var inviteAdapter: InviteAdapter
+    lateinit var mContext: Context
 
     // ARRAY LIST FOR STORING CONTACTS WHEN RETURNS FROM COROUNTINES/ IO THREAD
     private val listContacts: ArrayList<ContactsModel> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+    override fun onAttach(context: Context){
+        super.onAttach(context)
+        mContext = context
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +55,9 @@ class HomeFragment : Fragment() {
 
         val adapter = MemberAdapter(listMembers)
 
-        val recycler = requireView().findViewById<RecyclerView>(R.id.recycler_member)
-        recycler.layoutManager = LinearLayoutManager(requireContext())
-        recycler.adapter = adapter
+
+        binding.recyclerMember.layoutManager = LinearLayoutManager(mContext)
+        binding.recyclerMember.adapter = adapter
 
         // invite adapter or contacts recyclerview adapter
         Log.d("fetchcontacts53", "fetchcontacts: start ${listContacts.size} ")
@@ -85,16 +95,16 @@ class HomeFragment : Fragment() {
 
 
         // invite adapter or contacts recyclerview adapter
-        val inviteRecycler = requireView().findViewById<RecyclerView>(R.id.recycler_invite)
-        inviteRecycler.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        inviteRecycler.adapter = inviteAdapter
+
+        binding.recyclerInvite.layoutManager =
+            LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerInvite.adapter = inviteAdapter
 
     }
 
     // fetching contacts from database or ye fun ek live observer he
     private fun fetchDatabaseContacts() {
-        val database = MyFamilyDatabase.getDatabase(requireContext())
+        val database = MyFamilyDatabase.getDatabase(mContext)
         // livedata ko use kerne ke liye hume us function ko observe kerna perta he
         database.contactDao().getAllContacts().observe(viewLifecycleOwner) {
             Log.d("fetchcontacts53", "fetchDatabaseContacts: ")
@@ -107,7 +117,7 @@ class HomeFragment : Fragment() {
 
     // insert contacts to database
     private suspend fun insertDatabaseContacts(listContacts: ArrayList<ContactsModel>) {
-        val database = MyFamilyDatabase.getDatabase(requireContext())
+        val database = MyFamilyDatabase.getDatabase(mContext)
         database.contactDao().insertAll(listContacts)
     }
 

@@ -1,22 +1,19 @@
 package com.example.myfamily
 
-import android.text.Layout
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfamily.databinding.ItemInviteBinding
+
 
 class InviteAdapter(private val listContact: List<ContactsModel>) :
     RecyclerView.Adapter<InviteAdapter.viewHolder>() {
-    class viewHolder(private val item: View) : RecyclerView.ViewHolder(item) {
-        val name = item.findViewById<TextView>(R.id.name)
 
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val item = inflater.inflate(R.layout.item_invite, parent, false)
+        val item = ItemInviteBinding.inflate(inflater, parent, false)
         return viewHolder(item)
     }
 
@@ -29,6 +26,10 @@ class InviteAdapter(private val listContact: List<ContactsModel>) :
 
     override fun getItemCount(): Int {
         return listContact.size
+    }
+    class viewHolder(private val item: ItemInviteBinding) : RecyclerView.ViewHolder(item.root) {
+        val name = item.name
+
     }
 
 }

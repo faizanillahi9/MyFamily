@@ -1,27 +1,26 @@
 package com.example.myfamily
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfamily.databinding.ItemMemberBinding
 
 class MemberAdapter(private val listMembers: List<MemberModel>) :
     RecyclerView.Adapter<MemberAdapter.viewholder>() {
-    class viewholder(private val item: View) : RecyclerView.ViewHolder(item) {
-        //val imgUser = item.findViewById<ImageView>(R.id.img_user)
-        val userName = item.findViewById<TextView>(R.id.userName)
-        val userAdress = item.findViewById<TextView>(R.id.user_adress)
-        val battery = item.findViewById<TextView>(R.id.battery)
-        val navigation = item.findViewById<TextView>(R.id.navigation)
+    class viewholder(private val item: ItemMemberBinding) : RecyclerView.ViewHolder(item.root) {
+//        val imgUser = item.imgUser
+        val userName = item.userName
+        val userAdress = item.userAdress
+        val battery = item.battery
+        val navigation = item.navigation
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberAdapter.viewholder {
+
         val inflater = LayoutInflater.from(parent.context)
-        val item = inflater.inflate(R.layout.item_member, parent, false)
+        val item = ItemMemberBinding.inflate(inflater, parent, false)
         return viewholder(item)
 
     }

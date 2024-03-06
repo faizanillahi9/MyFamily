@@ -13,4 +13,10 @@
     <string name="user_adress">Shulsong building, Tarain 9th Road Futlan, Shenzen</string>
     <string name="google_map_api_key">AIzaSyBWYOG4wXfn3uD6dmu_Qzv0zX1AtmKk3E0</string>
     <string name="home_fragment">Home Fragment</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="your_web_client_id">470371575996-gjffm0ifq2ao7qjers4g93e4rdb9g2ns.apps.googleusercontent.com</string>
+    <string name="default_web_client_id_auth">470371575996-gjffm0ifq2ao7qjers4g93e4rdb9g2ns.apps.googleusercontent.com</string>
+    <string name="enable_gps">enable_gps</string>
+    <string name="required_for_this_app">required_for_this_app</string>
+    <string name="enable_now">enable_now</string>
 </resources>
