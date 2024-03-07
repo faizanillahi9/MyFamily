@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myfamily.databinding.FragmentGuardBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -54,7 +55,9 @@ class GuardFragment : Fragment(), InviteMailAdapter.OnActionClick {
         firestore.collection("users")
             .document(FirebaseAuth.getInstance().currentUser?.email.toString())
             .collection("invites").get().addOnCompleteListener {
+
                 if (it.isSuccessful) {
+                    Log.d("invite89", "IT result after sucess: ${it.result}")
                     val list: ArrayList<String> = ArrayList()
                     for (item in it.result) {
                         if (item.get("invite_status") == 0L) {
@@ -65,8 +68,12 @@ class GuardFragment : Fragment(), InviteMailAdapter.OnActionClick {
                     Log.d("invite89", "getInvites: $list")
 
                     val adapter = InviteMailAdapter(list,this)
+                    binding.inviteRecycler.layoutManager = LinearLayoutManager(mContext)
                     binding.inviteRecycler.adapter = adapter
 
+                }
+                else{
+                    Log.d("invite89", "getInvites: no invites")
                 }
             }
 
@@ -89,7 +96,7 @@ class GuardFragment : Fragment(), InviteMailAdapter.OnActionClick {
         firestore.collection("users")
             .document(mail)
             .collection("invites")
-            .document(senderMail).set(data)
+            .document("green eyes bitch").set(data)
             .addOnSuccessListener {
 
             }.addOnFailureListener {
